@@ -3,7 +3,7 @@ import axios from 'axios';
 import UserForm from './components/UserForm';
 import UserList from './components/UserList';
 
-const API = 'http://localhost:5000/api/users';
+const API = process.env.REACT_APP_API_URL + '/api/users';
 
 function App() {
   const [users, setUsers] = useState([]);
