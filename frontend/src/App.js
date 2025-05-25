@@ -1,45 +1,18 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import UserForm from './components/UserForm';
-import UserList from './components/UserList';
-
-const API = "http://34.60.11.1:5000"+ '/api/users';
+import React from 'react';
+import { Routes, Route } from 'react-router-dom';
+import MasterLayout from './components/MasterLayout';
+import Users from './pages/Users';
+import Roles from './pages/Roles';
 
 function App() {
-  const [users, setUsers] = useState([]);
-  const [editingUser, setEditingUser] = useState(null);
-
-  const loadUsers = async () => {
-    const res = await axios.get(API);
-    setUsers(res.data);
-  };
-
-  const handleSave = async (user) => {
-    if (user._id) {
-      await axios.put(`${API}/${user._id}`, user);
-    } else {
-      await axios.post(API, user);
-    }
-    setEditingUser(null);
-    loadUsers();
-  };
-
-  const handleDelete = async (id) => {
-    await axios.delete(`${API}/${id}`);
-    loadUsers();
-  };
-
-  useEffect(() => {
-    loadUsers();
-  }, []);
-
-  return (
-      <div className="App">
-        <h1>User Management</h1>
-        <UserForm user={editingUser} onSave={handleSave} />
-        <UserList users={users} onEdit={setEditingUser} onDelete={handleDelete} />
-      </div>
-  );
+    return (
+        <Routes>
+            <Route path="/" element={<MasterLayout />}>
+                <Route path="users" element={<Users />} />
+                <Route path="roles" element={<Roles />} />
+            </Route>
+        </Routes>
+    );
 }
 
 export default App;
